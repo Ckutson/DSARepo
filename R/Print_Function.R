@@ -4,12 +4,12 @@
 #' @param x A variable
 #' @param ... A table variable
 #' @return A Confidence Intervale
-#' @examples 
-#' print(obj)
+#' @examples
+#' \dontrun{print(obj)}
 #' @export print.rttest
 print.rttest <- function(x, ...)
 {
 
   print(x$ci)
-  
+
 }
