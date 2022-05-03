@@ -12,10 +12,10 @@
 \item{...}{A variable}
 }
 \value{
-A boxplot
+A boxplot of data from myttest
 }
 \description{
-Plots Results of Data Using ggplot2
+S3 method for plotting results of data from myttest
 }
 \examples{
 \dontrun{plot(obj)}

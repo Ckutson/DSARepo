@@ -12,10 +12,10 @@
 \item{...}{A table variable}
 }
 \value{
-A Confidence Intervale
+A confidence intervale and test type from myttest
 }
 \description{
-Prints Results of CI
+S3 method for printing confidence interval and test type of myttest function
 }
 \examples{
 \dontrun{print(obj)}

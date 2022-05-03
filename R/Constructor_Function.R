@@ -1,12 +1,13 @@
 #' Constructor Function
 #'
-#' Takes in Data and produces a list
-#' @param x The x dataset
-#' @param y The y dataset
-#' @param alpha an alpha value
-#' @param paired Paired Data
+#' Takes in two sets of data and produces a list containing: test results,
+#' a dataframe, and the confidence interval and P - value
+#' @param x The x variable data
+#' @param y The y variable data
+#' @param alpha an alpha value, normally set to 0.05
+#' @param paired Is data paired or unpaired
 #' @importFrom stats t.test var.test
-#' @return A list
+#' @return A list containing: test results, a dataframe of the two combined datasets, confidence interval and P-Value
 #' @examples
 #' \dontrun{myttest(x, y, alpha = 0.05, paired = FALSE)}
 #' @export myttest

@@ -7,19 +7,20 @@
 myttest(x, y, alpha = 0.05, paired = FALSE)
 }
 \arguments{
-\item{x}{The x dataset}
+\item{x}{The x variable data}
 
-\item{y}{The y dataset}
+\item{y}{The y variable data}
 
-\item{alpha}{an alpha value}
+\item{alpha}{an alpha value, normally set to 0.05}
 
-\item{paired}{Paired Data}
+\item{paired}{Is data paired or unpaired}
 }
 \value{
-A list
+A list containing: test results, a dataframe of the two combined datasets, confidence interval and P-Value
 }
 \description{
-Takes in Data and produces a list
+Takes in two sets of data and produces a list containing: test results,
+a dataframe, and the confidence interval and P - value
 }
 \examples{
 \dontrun{myttest(x, y, alpha = 0.05, paired = FALSE)}
