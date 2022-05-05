@@ -12,7 +12,7 @@
 \item{...}{A table variable}
 }
 \value{
-A confidence intervale and test type from myttest
+A confidence interval and test type from myttest
 }
 \description{
 S3 method for printing confidence interval and test type of myttest function

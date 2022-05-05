@@ -11,7 +11,9 @@
 #' @export
 plot.rttest <- function(x, ...)
 {
+  ## Creating dataframe from input (list of class rttest)
   df <- x$df
 
+  ## Plotting datframe
   boxplot(df)
 }

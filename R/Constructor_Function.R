@@ -13,8 +13,11 @@
 #' @export myttest
 myttest <- function (x, y, alpha = 0.05, paired = FALSE)
 {
+  ## Checking variance of x and y data
   variance <- var.test(x, y)
 
+  ## If else statement that analyzes PAIRED and VARIANCE to determine which
+  ## test to run
   if (paired == "FALSE") {
     if (variance$p.value > 0.05) {
       t_test <- t.test(x, y, var.equal = TRUE, conf.level = 1 - 0.05)
@@ -27,6 +30,7 @@ myttest <- function (x, y, alpha = 0.05, paired = FALSE)
     t_test <- t.test(x, y, paired = TRUE, conf.level = 1 - 0.05)
   }
 
+  ## Creating list of class rttest
   structure(list(result = t_test, df = data.frame(x,y),
                  ci = t_test$conf.int, p = t_test$p.value),
             class = "rttest")
