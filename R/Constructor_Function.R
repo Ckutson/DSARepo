@@ -20,14 +20,14 @@ myttest <- function (x, y, alpha = 0.05, paired = FALSE)
   ## test to run
   if (paired == "FALSE") {
     if (variance$p.value > 0.05) {
-      t_test <- t.test(x, y, var.equal = TRUE, conf.level = 1 - 0.05)
+      t_test <- t.test(x, y, var.equal = TRUE, conf.level = 0.95)
     }
     else {
-      t_test <- t.test(x, y, var.equal = FALSE, conf.level = 1 - 0.05)
+      t_test <- t.test(x, y, var.equal = FALSE, conf.level = 0.95)
     }
   }
   else {
-    t_test <- t.test(x, y, paired = TRUE, conf.level = 1 - 0.05)
+    t_test <- t.test(x, y, paired = TRUE, conf.level = 0.95)
   }
 
   ## Creating list of class rttest
