@@ -1,0 +1,179 @@
+---
+title: "DSA5041 Package Explanation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{DSA5041 Package Explanation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## This vignette will demonstrate all of the functions of my DSA5041 final package.
+Lets begin by loading the package. 
+
+```{r setup}
+library(mypackage)
+```
+
+### Constuctor Function
+One of the primary features of this package is the creation of a constructor function. This function creates a list from a set of data, and the list is of class "rttest". Because of this special class, we can later build S3 methods that utilize this class to perform special plotting and printing operations. Let's take a deeper dive into this function, called myttest.
+
+```{r}
+myttest <- function (x, y, alpha = 0.05, paired = FALSE)
+{
+  ## Checking variance of x and y data
+  variance <- var.test(x, y)
+
+  ## If else statement that analyzes PAIRED and VARIANCE to determine which
+  ## test to run
+  if (paired == "FALSE") {
+    if (variance$p.value > 0.05) {
+      t_test <- t.test(x, y, var.equal = TRUE, conf.level = 0.95)
+    }
+    else {
+      t_test <- t.test(x, y, var.equal = FALSE, conf.level = 0.95)
+    }
+  }
+  else {
+    t_test <- t.test(x, y, paired = TRUE, conf.level = 0.95)
+  }
+
+  ## Creating list of class rttest
+  structure(list(result = t_test, df = data.frame(x,y),
+                 ci = t_test$conf.int, p = t_test$p.value),
+            class = "rttest")
+}
+```
+
+As we can see above, the function first analyzes the variance between the two sets of X and Y data. The variance function produces a list, with one value being the P Value. 
+
+The constructor function then checks to see if the data is paired or unpaired. If the data is unpaired, it determines if the P Value from the variance function is greater than alpha level, and also checks the equivalnces of the variances.
+
+The type of t test that was conducted is found within the "result" part of the "myttest" list. 
+
+If the data is paired, then another version of the T Test is run and released to a list. Below are some examples of the constructor function. 
+
+#### Example 1
+```{r}
+# Example Dataset
+set.seed(32); x=rnorm(30,mean=10,sd=15)
+set.seed(35); y=rnorm(30,mean=8,sd=15)
+ans1=mypackage::myttest(x,y,alpha=0.05,paired=FALSE)
+
+# The results of the selected T Test
+# Note the test type and whether to accept or reject the null hypothesis
+ans1$result
+```
+
+#### Example 2
+```{r}
+# Example Dataset
+set.seed(32); x=rnorm(30,mean=10,sd=5)
+set.seed(35); y=rnorm(30,mean=8,sd=15)
+ans2=mypackage::myttest(x,y,alpha=0.05,paired=FALSE)
+
+# The results of the selected T Test
+# Note the test type and whether to accept or reject the null hypothesis
+ans2$result
+```
+
+#### Example 3
+```{r}
+# Example Dataset
+set.seed(32); x = rnorm(30, mean=10, sd=15)
+set.seed(35); y = x + rnorm(30, 5 ,4)
+ans3=mypackage::myttest(x,y,alpha=0.05,paired=TRUE)
+
+# The results of the selected T Test
+# Note the test type and whether to accept or reject the null hypothesis
+ans3$result
+```
+
+Now that we have our constructor function, below are some S3 methods that utilize the output of myttest. 
+
+### Print Function
+Because the output of myttest is of class "rttest", we can build specialized methods based off of generic functions. The first function is a print function, which will print the confidence interval calculated by myttest. 
+
+```{r}
+print.rttest <- function(x, ...)
+{
+  ## Printing confidence interval from list of class rttest
+  print(x$ci)
+}
+```
+
+Let's see some examples with our previous data. 
+
+#### Example 1
+```{r}
+print(ans1)
+```
+
+#### Example 2
+```{r}
+print(ans2)
+```
+
+#### Example 3
+```{r}
+print(ans3)
+```
+
+### Plot Function
+
+In addition to the print function, the package also includes an S3 plot method that utilizes class "rttest" with the original generic plot function. In this package, the plot.rttest method has been built to output boxplots of data. 
+
+```{r}
+plot.rttest <- function(x, ...)
+{
+  ## Creating dataframe from input (list of class rttest)
+  df <- x$df
+
+  ## Plotting datframe
+  boxplot(df)
+}
+```
+
+With the same set of data, here are some examples. 
+
+#### Example 1
+```{r}
+plot(ans1)
+```
+
+#### Example 2
+```{r}
+plot(ans2)
+```
+
+#### Example 3
+```{r}
+plot(ans3)
+```
+
+### Shiny App
+
+The package also includes an interactive R Shiny App to visualize the data. In order to operate the app, lets begin by loading the previously used data into list form into the environment.
+
+```{r}
+## Load Data
+mylist <- mypackage::mylist
+```
+
+Within the app is a function to open the Shiny app, which is below. When this function is called, a browser window will open which can be used to switch between the different datasets which we have analyzed above, and it displays a boxplot and confidence interval.
+
+```{r}
+## Function to open the Shiny app.
+shinyfunction <- function(){
+  mypackage <- NULL
+  shiny::runApp(system.file("shiny/shinyapp", package = "mypackage"), launch.browser = TRUE)
+}
+```
+
+##### And that's it!
