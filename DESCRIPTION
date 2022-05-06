@@ -12,4 +12,11 @@ LazyData: true
 RoxygenNote: 7.1.2
 Imports:
     stats,
-    graphics
+    graphics,
+    shiny
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
